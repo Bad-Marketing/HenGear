@@ -1,1 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HenGear — Q3 2026 Amazon Strategy</title>
+<link rel="icon" href="favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black:#0a0a0a; --red:#cc1100; --red-dark:#8a0b00;
+    --white:#ffffff; --grey:#8a8a8a; --light-grey:#e5e5e5;
+    --charcoal:#1a1a1a; --off-white:#f4f4f2;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Barlow',sans-serif;background:var(--off-white);color:var(--black);overflow-x:hidden;}
 
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--black);border-bottom:2px solid var(--red);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:60px;}
+  .nav-brand{font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:900;color:#fff;letter-spacing:0.08em;white-space:nowrap;}
+  .nav-brand span{color:var(--red);}
+  .nav-links{display:flex;gap:0;list-style:none;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+  .nav-links::-webkit-scrollbar{display:none;}
+  .nav-links a{display:block;padding:0 0.85rem;line-height:60px;font-family:'Barlow Condensed',sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:0.1em;color:var(--grey);text-decoration:none;text-transform:uppercase;transition:color 0.2s;white-space:nowrap;}
+  .nav-links a:hover,.nav-links a.active{color:var(--red);}
+
+  .nav-hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;cursor:pointer;padding:4px;width:36px;height:36px;}
+  .nav-hamburger span{display:block;width:22px;height:2px;background:#fff;transition:all 0.3s;}
+  .nav-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .nav-hamburger.open span:nth-child(2){opacity:0;}
+  .nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+  .nav-mobile{display:none;position:fixed;top:60px;left:0;right:0;z-index:99;background:var(--black);border-bottom:2px solid var(--red);}
+  .nav-mobile.open{display:block;}
+  .nav-mobile a{display:block;padding:0.9rem 1.5rem;font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;letter-spacing:0.1em;color:var(--grey);text-decoration:none;text-transform:uppercase;border-bottom:1px solid #1a1a1a;transition:color 0.2s;}
+  .nav-mobile a:hover,.nav-mobile a.active-m{color:var(--red);}
+
+  #cover{min-height:100vh;background:var(--black);display:grid;place-items:center;padding:6rem 2rem 4rem;position:relative;overflow:hidden;}
+  #cover::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(204,17,0,0.08) 0%,transparent 60%);pointer-events:none;}
+  .cover-inner{max-width:1200px;width:100%;}
+  .cover-eyebrow{font-family:'Barlow Condensed',sans-serif;font-size:0.8rem;font-weight:600;letter-spacing:0.2em;color:var(--grey);text-transform:uppercase;margin-bottom:1.5rem;}
+  .cover-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;line-height:0.9;text-transform:uppercase;}
+  .cover-title .line-white{font-size:clamp(3rem,11vw,11rem);color:var(--white);display:block;}
+  .cover-title .line-red{font-size:clamp(3rem,11vw,11rem);color:var(--red);display:block;}
+  .cover-rule{width:100%;height:2px;background:var(--red);margin:2rem 0;transform:scaleX(0);transform-origin:left;animation:ruleIn 0.8s 0.6s cubic-bezier(0.16,1,0.3,1) forwards;}
+  @keyframes ruleIn{to{transform:scaleX(1);}}
+  .cover-tagline{font-size:1rem;color:var(--grey);font-style:italic;margin-bottom:3rem;}
+  .cover-byline{font-family:'Barlow Condensed',sans-serif;font-size:0.72rem;font-weight:600;letter-spacing:0.15em;color:#444;text-transform:uppercase;}
+  .fade-up{opacity:0;transform:translateY(24px);animation:fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) forwards;}
+  @keyframes fadeUp{to{opacity:1;transform:none;}}
+  .cover-eyebrow{animation-delay:0.1s;} .cover-title{animation-delay:0.2s;} .cover-tagline{animation-delay:0.7s;} .cover-byline{animation-delay:0.9s;}
+
+  .content{max-width:1200px;margin:0 auto;padding:0 3rem;}
+  .section{padding:5rem 0 2rem;opacity:0;transform:translateY(32px);transition:opacity 0.6s ease,transform 0.6s ease;position:relative;}
+  .section.visible{opacity:1;transform:none;}
+  .section-header{background:var(--black);padding:1rem 1.5rem;display:flex;align-items:baseline;gap:0.75rem;margin-bottom:2rem;}
+  .section-num{font-family:'Barlow Condensed',sans-serif;font-size:0.9rem;font-weight:700;color:var(--red);letter-spacing:0.05em;}
+  .section-title{font-family:'Barlow Condensed',sans-serif;font-size:2rem;font-weight:900;letter-spacing:0.05em;color:var(--white);text-transform:uppercase;}
+  .sub-heading{font-family:'Barlow Condensed',sans-serif;font-size:1.2rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--black);border-left:4px solid var(--red);padding-left:0.75rem;margin:2rem 0 0.85rem;}
+  .red-label{font-family:'Barlow Condensed',sans-serif;font-size:1.05rem;font-weight:700;letter-spacing:0.15em;color:var(--red);text-transform:uppercase;margin:1.5rem 0 0.5rem;}
+  p{font-size:1.05rem;line-height:1.7;color:#222;margin-bottom:0.85rem;}
+  .bullet-list{list-style:none;margin:0.5rem 0 1rem 0;}
+  .bullet-list li{font-size:1rem;line-height:1.65;color:#222;padding:0.25rem 0 0.25rem 1.4rem;position:relative;}
+  .bullet-list li::before{content:'–';position:absolute;left:0;color:var(--red);font-weight:700;}
+  .sub-bullet-list{list-style:none;margin:0.25rem 0 0.5rem 1.5rem;}
+  .sub-bullet-list li{font-size:0.95rem;line-height:1.6;color:#444;padding:0.1rem 0 0.1rem 1.2rem;position:relative;}
+  .sub-bullet-list li::before{content:'·';position:absolute;left:0;color:var(--grey);}
+  .callout{background:var(--charcoal);border-left:4px solid var(--red);padding:1rem 1.25rem;margin:1.5rem 0;}
+  .callout p{color:var(--white);font-style:italic;margin:0;font-size:1.05rem;line-height:1.7;}
+  .insight-table{width:100%;border-collapse:collapse;margin:1.5rem 0;}
+  .insight-table tr{border-bottom:1px solid var(--light-grey);}
+  .insight-table td{padding:0.9rem 1rem;font-size:1rem;vertical-align:top;}
+  .insight-table td:first-child{background:var(--charcoal);width:25%;font-family:'Barlow Condensed',sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:0.12em;color:var(--red);text-transform:uppercase;line-height:1.4;}
+  .insight-table td:last-child{background:var(--white);color:#222;line-height:1.6;}
+  .phase-box{display:flex;margin:1rem 0;border:1px solid #ddd;}
+  .phase-num{background:var(--red);color:var(--white);font-family:'Barlow Condensed',sans-serif;font-size:2rem;font-weight:900;display:flex;align-items:center;justify-content:center;min-width:64px;padding:1rem 0.5rem;flex-shrink:0;}
+  .phase-content{background:var(--charcoal);padding:1rem 1.25rem;flex:1;}
+  .phase-title{font-family:'Barlow Condensed',sans-serif;font-size:1.15rem;font-weight:700;letter-spacing:0.06em;color:var(--white);text-transform:uppercase;margin-bottom:0.2rem;}
+  .phase-content .bullet-list li{color:#ccc;font-size:0.97rem;}
+  .phase-content .bullet-list li::before{color:var(--red);}
+  .tier-box{border-left:4px solid var(--grey);background:#f9f9f7;padding:1rem 1.25rem;margin:0.75rem 0;}
+  .tier-box.tier-1{border-color:var(--red);}
+  .tier-box.tier-3{border-color:var(--charcoal);}
+  .tier-label{font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.25rem;}
+  .tier-1 .tier-label{color:var(--red);} .tier-2 .tier-label{color:var(--grey);} .tier-3 .tier-label{color:var(--charcoal);}
+  .tier-desc{font-size:0.95rem;color:#555;font-style:italic;margin-bottom:0.5rem;}
+
+  /* COMMENT SYSTEM */
+  .section-comment-btn{display:inline-flex;align-items:center;gap:0.4rem;margin-top:1.5rem;background:transparent;border:1.5px solid var(--light-grey);padding:0.45rem 0.9rem;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:0.88rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--grey);transition:all 0.2s;}
+  .section-comment-btn:hover{border-color:var(--red);color:var(--red);}
+  .section-comment-btn .cb-count{background:var(--red);color:#fff;font-size:0.72rem;font-weight:700;padding:0.1rem 0.4rem;min-width:20px;text-align:center;display:none;}
+  .section-comment-btn.has-comments .cb-count{display:inline-block;}
+  .comment-panel{display:none;border:1.5px solid var(--light-grey);background:#fff;margin-top:0.75rem;}
+  .comment-panel.open{display:block;}
+  .comment-panel-inner{padding:1.25rem;}
+  .comment-thread{margin-bottom:1rem;}
+  .comment-item{border-left:3px solid var(--red);padding:0.75rem 1rem;margin-bottom:0.75rem;background:#fafafa;}
+  .comment-item-header{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:0.25rem;margin-bottom:0.35rem;}
+  .comment-item-name{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;color:var(--black);}
+  .comment-item-time{font-size:0.78rem;color:var(--grey);}
+  .comment-item-text{font-size:0.95rem;line-height:1.6;color:#333;}
+  .no-comments{font-size:0.9rem;color:var(--grey);font-style:italic;margin-bottom:1rem;}
+  .comment-form textarea{width:100%;padding:0.6rem 0.75rem;border:1px solid #ddd;font-family:'Barlow',sans-serif;font-size:0.95rem;resize:vertical;outline:none;background:#fafafa;display:block;margin-bottom:0.5rem;}
+  .comment-form-row{display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap;}
+  .comment-form input[type=text]{flex:1;min-width:140px;padding:0.5rem 0.65rem;border:1px solid #ddd;font-family:'Barlow',sans-serif;font-size:0.95rem;outline:none;background:#fafafa;}
+  .comment-post-btn{background:var(--red);color:#fff;border:none;padding:0.5rem 1.25rem;font-family:'Barlow Condensed',sans-serif;font-size:0.9rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;white-space:nowrap;}
+  .comment-post-btn:hover{background:var(--red-dark);}
+  .comment-post-btn:disabled{opacity:0.5;cursor:default;}
+  .comment-status{font-size:0.82rem;color:var(--grey);margin-top:0.35rem;}
+
+  #progress{position:fixed;top:60px;left:0;right:0;z-index:99;height:3px;background:var(--red);transform-origin:left;transform:scaleX(0);transition:transform 0.1s linear;}
+
+  #closing{background:var(--black);padding:4rem 2rem;text-align:center;margin-top:5rem;}
+  .closing-tagline{font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:900;letter-spacing:0.12em;color:var(--red);text-transform:uppercase;margin-bottom:0.5rem;}
+  .closing-dept{font-family:'Barlow Condensed',sans-serif;font-size:0.72rem;letter-spacing:0.15em;color:#444;text-transform:uppercase;}
+
+  @media(max-width:768px){
+    .nav-links{display:none;}
+    .nav-hamburger{display:flex;}
+    .cover-title .line-white,.cover-title .line-red{font-size:clamp(3rem,13vw,5rem);}
+    .section-title{font-size:1.3rem;}
+    .insight-table td:first-child{width:35%;font-size:0.65rem;}
+    .phase-num{min-width:50px;font-size:1.6rem;}
+    .content{padding:0 1.25rem;}
+    #cover{padding:5rem 1.25rem 3rem;}
+    .bhag-title{font-size:1.1rem !important;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-brand">BAD <span>MARKETING</span></span>
+  <ul class="nav-links">
+    <li><a href="#cover">Overview</a></li>
+    <li><a href="#s01">01 · Strategic Focus</a></li>
+    <li><a href="#s02">02 · Category Visibility</a></li>
+    <li><a href="#s03">03 · Small Nest Box</a></li>
+    <li><a href="#s04">04 · Expand Beyond Nest Boxes</a></li>
+    <li><a href="#s05">05 · Second Purchase</a></li>
+    <li><a href="#s06">06 · Advertising</a></li>
+    <li><a href="#s07">07 · Roadmap</a></li>
+  </ul>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="nav-mobile" id="nav-mobile">
+  <a href="#cover" onclick="closeMenu()">Overview</a>
+  <a href="#s01" onclick="closeMenu()">01 · Strategic Focus</a>
+  <a href="#s02" onclick="closeMenu()">02 · Category Visibility</a>
+  <a href="#s03" onclick="closeMenu()">03 · Small Nest Box</a>
+  <a href="#s04" onclick="closeMenu()">04 · Expand Beyond Nest Boxes</a>
+  <a href="#s05" onclick="closeMenu()">05 · Second Purchase</a>
+  <a href="#s06" onclick="closeMenu()">06 · Advertising</a>
+  <a href="#s07" onclick="closeMenu()">07 · Roadmap</a>
+</div>
+<div id="progress"></div>
+
+<section id="cover">
+  <div class="cover-inner">
+    <p class="cover-eyebrow fade-up">Q3 2026 · Amazon Growth Strategy</p>
+    <div class="cover-title fade-up">
+      <span class="line-white">HENGEAR</span>
+      <span class="line-red">Q3 2026</span>
+    </div>
+    <div class="cover-rule"></div>
+    <p class="cover-tagline fade-up">The Leading Roll-Away Nesting Box Brand on Amazon</p>
+    <p class="cover-byline fade-up">Prepared by BAD Marketing &nbsp;·&nbsp; Amazon Department</p>
+  </div>
+</section>
+
+<div class="content">
+
+  <!-- 01 · STRATEGIC FOCUS -->
+  <div class="section" id="s01">
+    <div class="section-header"><span class="section-num">01</span><span class="section-title">Strategic Focus</span></div>
+
+    <div class="callout">
+      <p>Continue establishing HenGear as the leading roll-away nesting box brand on Amazon by expanding non-branded category visibility, strengthening the Small Nest Box as the primary acquisition product, and gradually expanding the HenGear catalog.</p>
+    </div>
+
+    <p>Growth should remain focused on profitable customer acquisition rather than discount-driven sales volume and should support the broader business without increasing Shopify cannibalization.</p>
+
+    <div class="sub-heading">Q3 Growth Areas</div>
+    <table class="insight-table">
+      <tr><td>Growth Area 1</td><td>Expand visibility within the roll-away nest box category</td></tr>
+      <tr><td>Growth Area 2</td><td>Turn the Small Nest Box into HenGear's primary acquisition product</td></tr>
+      <tr><td>Growth Area 3</td><td>Expand beyond nest boxes with AutoRoost</td></tr>
+      <tr><td>Growth Area 4</td><td>Create a clear path to the second purchase</td></tr>
+    </table>
+
+    <div id="comments-s01"></div>
+  </div>
+
+  <!-- 02 · GROWTH AREA 1 -->
+  <div class="section" id="s02">
+    <div class="section-header"><span class="section-num">02</span><span class="section-title">Expand Visibility Within the Roll-Away Nest Box Category</span></div>
+
+    <div class="sub-heading">Opportunity</div>
+    <p>HenGear has successfully established an Amazon presence within the roll-away nesting box niche, but current category share remains relatively small compared to the overall opportunity. Search Query Performance shows that the majority of growth is being driven by non-branded category searches rather than branded demand.</p>
+    <p>The Q3 focus is to continue expanding visibility among new-to-brand shoppers actively searching for nesting box solutions.</p>
+
+    <div class="sub-heading">Recommendations</div>
+    <ul class="bullet-list">
+      <li>Continue expanding visibility across non-branded category searches.</li>
+      <li>Prioritize roll-away nesting box terms where HenGear has a clear competitive advantage.</li>
+      <li>Measure progress through category share growth.</li>
+      <li>Align advertising efforts around profitable NTB acquisition.</li>
+    </ul>
+
+    <div id="comments-s02"></div>
+  </div>
+
+  <!-- 03 · GROWTH AREA 2 -->
+  <div class="section" id="s03">
+    <div class="section-header"><span class="section-num">03</span><span class="section-title">Turn the Small Nest Box Into HenGear's Primary Acquisition Product</span></div>
+
+    <div class="sub-heading">Opportunity</div>
+    <p>The Small Nest Box has clearly emerged as the strongest product in the catalog. It drives the highest sales volume, strongest conversion rates, and most effectively captures category demand. Rather than trying to force equal contribution across all Nest Box sizes, Q3 should focus on maximizing the Small Nest Box's role as the primary entry point into the HenGear catalog.</p>
+
+    <div class="callout">
+      <p>The goal is to acquire more new customers through the Small Nest Box and use that product as the foundation for upsell opportunities.</p>
+    </div>
+
+    <div class="sub-heading">Recommendations</div>
+    <ul class="bullet-list">
+      <li>Continue positioning the Small Nest Box as the entry point product for new-to-brand shoppers.</li>
+      <li>Improve product selection guidance to help customers identify when Medium, Large, or XL is the better fit.</li>
+    </ul>
+
+    <div id="comments-s03"></div>
+  </div>
+
+  <!-- 04 · GROWTH AREA 3 -->
+  <div class="section" id="s04">
+    <div class="section-header"><span class="section-num">04</span><span class="section-title">Expand Beyond Nest Boxes</span></div>
+
+    <div class="sub-heading">Opportunity</div>
+    <p>AutoRoost represents the next step in the HenGear ecosystem. The goal is to acquire new customers through the Small Nest Box and create a natural path toward complementary products that increase customer value over time.</p>
+
+    <div class="sub-heading">Recommendations</div>
+    <ul class="bullet-list">
+      <li>Confirm launch timing and inventory readiness.</li>
+      <li>Integrate AutoRoost into cross-sell opportunities across Amazon assets.</li>
+      <li>Integrate AutoRoost into the Store experience.</li>
+      <li>Use AutoRoost as the first step toward a broader product ecosystem strategy.</li>
+    </ul>
+
+    <div id="comments-s04"></div>
+  </div>
+
+  <!-- 05 · GROWTH AREA 4 -->
+  <div class="section" id="s05">
+    <div class="section-header"><span class="section-num">05</span><span class="section-title">Create a Clear Path to the Second Purchase</span></div>
+
+    <div class="sub-heading">Opportunity</div>
+    <p>Store performance has been strong despite receiving no dedicated advertising support, generating meaningful attributed sales and engagement through organic shopper activity.</p>
+    <p>As the catalog expands, the Store becomes increasingly important as a destination where shoppers can better understand the HenGear product ecosystem, compare solutions, and discover additional products.</p>
+
+    <div class="sub-heading">Recommendations</div>
+    <ul class="bullet-list">
+      <li>Shift Store navigation from product-size organization toward solution-based navigation.</li>
+      <li>Improve guidance around selecting the right Nest Box size.</li>
+      <li>Create clearer pathways between Nest Boxes, AutoRoost, and replacement products.</li>
+    </ul>
+
+    <div id="comments-s05"></div>
+  </div>
+
+  <!-- 06 · ADVERTISING -->
+  <div class="section" id="s06">
+    <div class="section-header"><span class="section-num">06</span><span class="section-title">Advertising Direction</span></div>
+
+    <div class="sub-heading">Strategic Direction</div>
+    <ul class="bullet-list">
+      <li>Continue the current approach: win cheap, high-intent secondary category terms rather than overpaying for head terms, and let organic rank compound from there.</li>
+      <li>Maintain TACOS discipline (recently ~6–7%); prioritize profitable acquisition over raw spend growth.</li>
+      <li>Treat Sponsored Products, Sponsored Brands, and Sponsored Display as a connected funnel rather than three separate channels; feed winning search terms across all three rather than optimizing each in isolation.</li>
+      <li>Build a dedicated PPC structure for AutoRoost now that it's live, mirroring the framework that worked for the Nest Box line.</li>
+    </ul>
+
+    <div class="sub-heading">Sponsored Products</div>
+    <ul class="bullet-list">
+      <li>Keep Auto campaigns running as the primary discovery engine — combined they're driving ~100 orders at a healthy 10–13% ACOS.</li>
+      <li>Pull back and optimize on Auto Substitutes, currently the account's worst performer (30.46% ACOS, 3.28 ROAS), and reallocate that spend toward SB/SD.</li>
+      <li>Harvest well-performing search terms surfaced from Auto into SP Broad and SP Phrase to start capturing that demand more efficiently and cheaply than Auto does.</li>
+      <li>Once a term proves itself and organic rank movement is visible (the halo effect), graduate it into SP Exact to defend the ranking and capture high-intent traffic at a lower CPC than Broad. SP Exact is currently underweighted relative to its potential.</li>
+    </ul>
+
+    <div class="sub-heading">Sponsored Brands</div>
+
+    <div class="callout">
+      <p>SB is the most efficient channel in the account at 1.93% ACOS and ~52x ROAS — it is currently capped at a token spend level and should be scaled meaningfully.</p>
+    </div>
+
+    <ul class="bullet-list">
+      <li>Scale SB meaningfully given its efficiency advantage.</li>
+      <li>Expand SB Product Collection/Video creative to include AutoRoost alongside Nest Box for cross-sell exposure.</li>
+      <li>Use SB headline ads to reinforce the secondary-keyword ranking push (same terms driving the organic halo effect).</li>
+    </ul>
+
+    <div class="sub-heading">Sponsored Display</div>
+    <ul class="bullet-list">
+      <li>Push SD with intent rather than pulling back despite the current zero-conversion read — it's early and this is a top-of-funnel/retargeting layer, not a direct-response channel.</li>
+      <li>Feed the same harvested high-performing search terms into SD as product/category targeting (competitor Nest Box ASINs, complementary categories).</li>
+      <li>Test AMC audiences for SD: cart-add/no-purchase, detail-page-view/no-purchase, past Nest Box purchasers (for AutoRoost and Nest Pad cross-sell), and competitor-product viewers.</li>
+    </ul>
+
+    <div class="sub-heading">AutoRoost 2.0</div>
+    <ul class="bullet-list">
+      <li>Build a dedicated Auto + Broad Modifier campaign structure now that it's live, following the same harvesting pipeline above.</li>
+      <li>Feature AutoRoost in the SB Product Collection ad as a cross-sell off Nest Box traffic.</li>
+    </ul>
+
+    <div id="comments-s06"></div>
+  </div>
+
+  <!-- 07 · ROADMAP -->
+  <div class="section" id="s07">
+    <div class="section-header"><span class="section-num">07</span><span class="section-title">Roadmap</span></div>
+
+    <style>
+      .tl{position:relative;padding:1rem 0 2rem;}
+      .tl-spine{position:absolute;left:50%;width:2px;top:0;bottom:0;background:#e5e5e5;transform:translateX(-50%);}
+      .tl-fill{position:absolute;left:50%;width:2px;top:0;height:0;background:#cc1100;transform:translateX(-50%);transition:height 0.3s ease;}
+      .tl-phase-hdr{display:flex;align-items:center;gap:0;margin:1.5rem 0 1rem;position:relative;z-index:2;}
+      .tl-phase-rule{flex:1;height:1px;background:#ddd;}
+      .tl-phase-pill{background:var(--black);padding:.5rem 1.25rem;display:flex;align-items:baseline;gap:.3rem;flex-shrink:0;}
+      .tl-phase-num{font-family:'Barlow Condensed',sans-serif;font-size:2rem;font-weight:900;color:#cc1100;line-height:1;}
+      .tl-phase-lbl{font-family:'Barlow Condensed',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;color:#8a8a8a;text-transform:uppercase;}
+      .tl-item{display:flex;align-items:flex-start;margin-bottom:.6rem;position:relative;z-index:2;}
+      .tl-item.l{justify-content:flex-start;}
+      .tl-item.r{justify-content:flex-end;}
+      .tl-half{width:calc(50% - 16px);}
+      .tl-item.l .tl-half{padding-right:1.1rem;display:flex;justify-content:flex-end;}
+      .tl-item.r .tl-half{padding-left:1.1rem;}
+      .tl-dot-wrap{position:absolute;left:50%;transform:translateX(-50%);top:10px;z-index:3;}
+      .tl-dot{width:12px;height:12px;border-radius:50%;background:#cc1100;border:2px solid #fff;box-shadow:0 0 0 2px #cc1100;margin-left:-6px;}
+      .tl-card{background:#fff;border:1px solid #e5e5e5;border-top:2px solid #cc1100;padding:.55rem .75rem;width:100%;opacity:0;transform:translateY(10px);transition:opacity .45s ease,transform .45s ease;}
+      .tl-card.in{opacity:1;transform:none;}
+      .tl-action{font-family:'Barlow Condensed',sans-serif;font-size:.95rem;font-weight:900;letter-spacing:.04em;color:#0a0a0a;text-transform:uppercase;margin-bottom:.2rem;}
+      .tl-goal{font-size:.75rem;line-height:1.35;color:#8a8a8a;font-style:italic;}
+      .tl-ph{margin-bottom:1.75rem;}
+      .tl-end{display:flex;flex-direction:column;align-items:center;position:relative;z-index:2;margin-top:.25rem;}
+      .tl-end-dot{width:18px;height:18px;border-radius:50%;background:#cc1100;box-shadow:0 0 0 5px rgba(204,17,0,.15);}
+      .tl-end-lbl{font-family:'Barlow Condensed',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.15em;color:#8a8a8a;text-transform:uppercase;margin-top:.4rem;}
+      @media(max-width:600px){
+        .tl-spine,.tl-fill,.tl-dot-wrap{left:10px;transform:none;}
+        .tl-item.l,.tl-item.r{justify-content:flex-start;}
+        .tl-item.l .tl-half,.tl-item.r .tl-half{width:calc(100% - 28px);padding-left:28px;padding-right:0;display:block;}
+        .tl-dot-wrap{left:4px;}
+        .tl-phase-pill{padding:.45rem 1rem;}
+        .tl-phase-num{font-size:1.6rem;}
+      }
+    </style>
+
+    <div class="tl" id="rmtl">
+      <div class="tl-spine"></div>
+      <div class="tl-fill" id="rmfill"></div>
+
+      <!-- NEXT 30 DAYS -->
+      <div class="tl-ph">
+        <div class="tl-phase-hdr"><div class="tl-phase-rule"></div><div class="tl-phase-pill"><span class="tl-phase-num">30</span><span class="tl-phase-lbl">Days</span></div><div class="tl-phase-rule"></div></div>
+        <div class="tl-item l"><div class="tl-half"><div class="tl-card"><div class="tl-action">Prioritize Category Acquisition</div><div class="tl-goal">Expand visibility within the roll-away nesting box segment</div></div></div><div class="tl-dot-wrap"><div class="tl-dot"></div></div></div>
+        <div class="tl-item r"><div class="tl-half"><div class="tl-card"><div class="tl-action">Strengthen Small Nest Box Positioning</div><div class="tl-goal">Establish as the primary customer acquisition product</div></div></div><div class="tl-dot-wrap"><div class="tl-dot"></div></div></div>
+        <div class="tl-item l"><div class="tl-half"><div class="tl-card"><div class="tl-action">Launch AutoRoost</div><div class="tl-goal">Expand HenGear catalog beyond nest boxes</div></div></div><div class="tl-dot-wrap"><div class="tl-dot"></div></div></div>
+      </div>
+
+      <!-- DAYS 31–60 -->
+      <div class="tl-ph">
+        <div class="tl-phase-hdr"><div class="tl-phase-rule"></div><div class="tl-phase-pill"><span class="tl-phase-num">60</span><span class="tl-phase-lbl">Days</span></div><div class="tl-phase-rule"></div></div>
+        <div class="tl-item r"><div class="tl-half"><div class="tl-card"><div class="tl-action">Integrate AutoRoost Into Store &amp; Cross-Sell Assets</div><div class="tl-goal">Create a clear path to the second purchase</div></div></div><div class="tl-dot-wrap"><div class="tl-dot"></div></div></div>
+        <div class="tl-item l"><div class="tl-half"><div class="tl-card"><div class="tl-action">Expand Category Visibility Initiatives</div><div class="tl-goal">Grow category share within the roll-away nesting box segment</div></div></div><div class="tl-dot-wrap"><div class="tl-dot"></div></div></div>
+        <div class="tl-item r"><div class="tl-half"><div class="tl-card"><div class="tl-action">Improve Nest Box Size-Selection Guidance</div><div class="tl-goal">Drive product selection confidence across Amazon assets</div></div></div><div class="tl-dot-wrap"><div class="tl-dot"></div></div></div>
+      </div>
+
+      <!-- DAYS 61–90 -->
+      <div class="tl-ph">
+        <div class="tl-phase-hdr"><div class="tl-phase-rule"></div><div class="tl-phase-pill"><span class="tl-phase-num">90</span><span class="tl-phase-lbl">Days</span></div><div class="tl-phase-rule"></div></div>
+        <div class="tl-item l"><div class="tl-half"><div class="tl-card"><div class="tl-action">Review AutoRoost Performance</div><div class="tl-goal">Evaluate catalog expansion and cross-sell effectiveness</div></div></div><div class="tl-dot-wrap"><div class="tl-dot"></div></div></div>
+        <div class="tl-item r"><div class="tl-half"><div class="tl-card"><div class="tl-action">Continue Expanding Category Share</div><div class="tl-goal">Sustain growth within the roll-away nesting box segment</div></div></div><div class="tl-dot-wrap"><div class="tl-dot"></div></div></div>
+        <div class="tl-item l"><div class="tl-half"><div class="tl-card"><div class="tl-action">Evaluate Store Performance &amp; Navigation Behaviour</div><div class="tl-goal">Optimise second purchase pathway and customer journey</div></div></div><div class="tl-dot-wrap"><div class="tl-dot"></div></div></div>
+      </div>
+
+      <div class="tl-end"><div class="tl-end-dot"></div><div class="tl-end-lbl">End of Q3</div></div>
+    </div>
+
+    <script>
+    (function(){
+      const cards=document.querySelectorAll('#rmtl .tl-card');
+      const fill=document.getElementById('rmfill');
+      const tl=document.getElementById('rmtl');
+      function revealCards(){
+        cards.forEach(c=>{
+          const rect=c.getBoundingClientRect();
+          if(rect.top<window.innerHeight*0.9) c.classList.add('in');
+        });
+        const tlRect=tl.getBoundingClientRect();
+        const scrolled=Math.max(0,-tlRect.top);
+        const pct=Math.min(1,scrolled/(tl.offsetHeight-window.innerHeight*0.5));
+        fill.style.height=(pct*tl.offsetHeight)+'px';
+      }
+      window.addEventListener('scroll',revealCards);
+      setTimeout(()=>{
+        cards.forEach((c,i)=>setTimeout(()=>c.classList.add('in'),i*60));
+        fill.style.height=tl.offsetHeight+'px';
+      },300);
+    })();
+    </script>
+
+    <div id="comments-s07"></div>
+  </div>
+
+</div>
+
+<footer id="closing">
+  <div class="closing-tagline">We Make Good Brands Go Bad</div>
+  <p class="closing-dept">BAD Marketing &nbsp;·&nbsp; Amazon Department</p>
+</footer>
+
+<script>
+function toggleMenu(){
+  const btn=document.getElementById('hamburger');
+  const menu=document.getElementById('nav-mobile');
+  btn.classList.toggle('open');
+  menu.classList.toggle('open');
+}
+function closeMenu(){
+  document.getElementById('hamburger').classList.remove('open');
+  document.getElementById('nav-mobile').classList.remove('open');
+}
+
+const progress = document.getElementById('progress');
+window.addEventListener('scroll',()=>{
+  const scrolled=window.scrollY, total=document.documentElement.scrollHeight-window.innerHeight;
+  progress.style.transform=`scaleX(${scrolled/total})`;
+});
+
+const obs = new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.08});
+document.querySelectorAll('.section').forEach(s=>obs.observe(s));
+
+const linkObs = new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){document.querySelectorAll('.nav-links a').forEach(l=>l.classList.remove('active'));const a=document.querySelector(`.nav-links a[href="#${e.target.id}"]`);if(a){a.classList.add('active');a.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});}}});},{threshold:0.4});
+document.querySelectorAll('[id]').forEach(s=>linkObs.observe(s));
+</script>
+
+<script>
+const SUPABASE_URL = 'https://zbcqdcwibbuyfmytfngn.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpiY3FkY3dpYmJ1eWZteXRmbmduIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIyOTgyNTEsImV4cCI6MjA5Nzg3NDI1MX0.gXJna_dG08OVNyQy6VyakhJ7ays93ibLlWCDrS6W1RM';
+const DOC_PREFIX = 'hengear-q3-2026';
+
+const SECTIONS = {
+  's01':'01 · Strategic Focus',
+  's02':'02 · Category Visibility',
+  's03':'03 · Small Nest Box',
+  's04':'04 · Expand Beyond Nest Boxes',
+  's05':'05 · Second Purchase',
+  's06':'06 · Advertising',
+  's07':'07 · Roadmap'
+};
+
+function formatDate(iso) {
+  const d = new Date(iso);
+  return d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})
+    + ' · ' + d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+}
+
+async function fetchComments() {
+  try {
+    const sectionIds = Object.keys(SECTIONS).map(s => `${DOC_PREFIX}-${s}`);
+    const r = await fetch(
+      `${SUPABASE_URL}/rest/v1/comments?section_id=in.(${sectionIds.map(s=>`"${s}"`).join(',')})&order=created_at.asc`,
+      { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
+    );
+    return await r.json();
+  } catch(e) { return []; }
+}
+
+async function saveComment(sectionId, name, body) {
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/comments`, {
+    method: 'POST',
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': `Bearer ${SUPABASE_KEY}`,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=representation'
+    },
+    body: JSON.stringify({ section_id: `${DOC_PREFIX}-${sectionId}`, name: name||'Anonymous', body })
+  });
+  if (!r.ok) throw new Error('Failed to save');
+  return await fetchComments();
+}
+
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function renderSection(sectionId, comments) {
+  const container = document.getElementById('comments-'+sectionId);
+  if (!container) return;
+  const fullId = `${DOC_PREFIX}-${sectionId}`;
+  const sectionComments = comments.filter(c => c.section_id === fullId);
+  const count = sectionComments.length;
+
+  container.innerHTML = `
+    <button class="section-comment-btn ${count>0?'has-comments':''}" onclick="togglePanel('${sectionId}')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      ${count>0 ? count+' comment'+(count>1?'s':'') : 'Add comment'}
+      <span class="cb-count">${count}</span>
+    </button>
+    <div class="comment-panel ${count>0?'open':''}" id="panel-${sectionId}">
+      <div class="comment-panel-inner">
+        <div class="comment-thread" id="thread-${sectionId}">
+          ${count===0 ? '<p class="no-comments">No comments yet on this section.</p>' :
+            sectionComments.map(c=>`
+              <div class="comment-item">
+                <div class="comment-item-header">
+                  <span class="comment-item-name">${esc(c.name||'Anonymous')}</span>
+                  <span class="comment-item-time">${formatDate(c.created_at)}</span>
+                </div>
+                <p class="comment-item-text">${esc(c.body)}</p>
+              </div>`).join('')}
+        </div>
+        <div class="comment-form">
+          <textarea id="txt-${sectionId}" rows="2" placeholder="Write a comment or question on this section..."></textarea>
+          <div class="comment-form-row">
+            <input type="text" id="name-${sectionId}" placeholder="Your name (optional)">
+            <button class="comment-post-btn" id="btn-${sectionId}" onclick="postComment('${sectionId}')">Post</button>
+          </div>
+          <div class="comment-status" id="status-${sectionId}"></div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function togglePanel(sectionId) {
+  const panel = document.getElementById('panel-'+sectionId);
+  panel.classList.toggle('open');
+  if (panel.classList.contains('open')) {
+    setTimeout(() => { const t = document.getElementById('txt-'+sectionId); if(t) t.focus(); }, 50);
+  }
+}
+
+async function postComment(sectionId) {
+  const txt = document.getElementById('txt-'+sectionId);
+  const nameEl = document.getElementById('name-'+sectionId);
+  const btn = document.getElementById('btn-'+sectionId);
+  const status = document.getElementById('status-'+sectionId);
+  const body = txt.value.trim();
+  if (!body) { status.textContent='Please write something first.'; status.style.color='#cc1100'; return; }
+  btn.disabled = true; status.textContent='Posting...'; status.style.color='#8a8a8a';
+  try {
+    const comments = await saveComment(sectionId, nameEl.value.trim(), body);
+    txt.value = ''; nameEl.value = '';
+    status.textContent='Posted ✓'; status.style.color='#2a7a2a';
+    setTimeout(()=>{ status.textContent=''; }, 3000);
+    Object.keys(SECTIONS).forEach(id => renderSection(id, comments));
+    setTimeout(()=>{ const p=document.getElementById('panel-'+sectionId); if(p) p.classList.add('open'); }, 50);
+  } catch(e) {
+    status.textContent='Failed to post. Please try again.'; status.style.color='#cc1100';
+  }
+  btn.disabled = false;
+}
+
+async function init() {
+  const comments = await fetchComments();
+  Object.keys(SECTIONS).forEach(id => renderSection(id, comments));
+  setTimeout(() => {
+    Object.keys(SECTIONS).forEach(id => {
+      const panel = document.getElementById('panel-'+id);
+      const hasComments = comments.some(c => c.section_id === `${DOC_PREFIX}-${id}`);
+      if (panel && hasComments) panel.classList.add('open');
+    });
+  }, 200);
+  setInterval(async () => {
+    const fresh = await fetchComments();
+    Object.keys(SECTIONS).forEach(id => renderSection(id, fresh));
+  }, 30000);
+}
+init();
+</script>
+</body>
+</html>
